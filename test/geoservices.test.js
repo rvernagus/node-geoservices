@@ -2,59 +2,31 @@ var geoservices = require('../');
 var assert = require('assert');
 var nock = require('nock');
 
+function getTest(requestedPath, expectedPath, filter) {
+  return function(beforeExit) {
+    if (typeof(filter) === 'undefined') filter = true;
+    
+    var req = nock('http://example.com');
+    if (filter) req = req.filteringPath(/\?.+$/, '');
+    req.get(expectedPath || '').reply();
+    
+    geoservices.get({ host: 'example.com', path: requestedPath });
+    
+    beforeExit(function() {
+      req.done();
+      nock.cleanAll();
+    });
+  };
+}
+
 module.exports = {
-  'get requests the specified URL': function(beforeExit) {
-    var req = nock('http://example.com')
-      .filteringPath(/\?.+$/, '')
-      .get('/ArcGIS/rest/services')
-      .reply();
-    
-    geoservices.get({ host: 'example.com', path: '/ArcGIS/rest/services' });
-    
-    beforeExit(function() {
-      req.done();
-      nock.cleanAll();
-    });
-  },
+  'get requests the specified URL': getTest('/ArcGIS/rest/services', '/ArcGIS/rest/services', true),
   
-  'get allows null path': function(beforeExit) {
-    var req = nock('http://example.com')
-      .filteringPath(/\?.+$/, '')
-      .get('')
-      .reply();
-    
-    geoservices.get({ host: 'example.com', path: null });
-    
-    beforeExit(function() {
-      req.done();
-      nock.cleanAll();
-    });
-  },
+  'get allows null path': getTest(null, '', true),
   
-  'get allows missing path': function(beforeExit) {
-    var req = nock('http://example.com')
-      .filteringPath(/\?.+$/, '')
-      .get('')
-      .reply();
-    
-    geoservices.get({ host: 'example.com' });
-    
-    beforeExit(function() {
-      req.done();
-      nock.cleanAll();
-    });
-  },
+  'get allows undefined path': getTest(undefined, '', true),
   
-  'get adds json format parameter': function(beforeExit) {
-    var req = nock('http://example.com')
-      .get('?f=json')
-      .reply();
-    
-    geoservices.get({ host: 'example.com' });
-    
-    beforeExit(function() {
-      req.done();
-      nock.cleanAll();
-    });
-  },
+  'get adds json format parameter': getTest('', '?f=json', false),
+  
+  'leaves format parameter if present': getTest('?f=pson', '?f=pson', false)
 };
