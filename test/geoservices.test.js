@@ -5,10 +5,11 @@ var nock = require('nock');
 module.exports = {
   'get requests the specified URL': function(beforeExit) {
     var req = nock('http://example.com')
-      .get('/users')
+      .filteringPath(/\?.+$/, '')
+      .get('/ArcGIS/rest/services')
       .reply();
     
-    geoservices.get({ host: 'example.com', path: '/users' });
+    geoservices.get({ host: 'example.com', path: '/ArcGIS/rest/services' });
     
     beforeExit(function() {
       req.done();
@@ -18,6 +19,7 @@ module.exports = {
   
   'get allows null path': function(beforeExit) {
     var req = nock('http://example.com')
+      .filteringPath(/\?.+$/, '')
       .get(null)
       .reply();
     
@@ -31,6 +33,7 @@ module.exports = {
   
   'get allows missing path': function(beforeExit) {
     var req = nock('http://example.com')
+      .filteringPath(/\?.+$/, '')
       .get()
       .reply();
     
@@ -40,5 +43,18 @@ module.exports = {
       req.done();
       nock.cleanAll();
     });
-  }
+  },
+  
+  'get adds json format parameter': function(beforeExit) {
+    var req = nock('http://example.com')
+      .get('/ArcGIS/rest/services?f=json')
+      .reply();
+    
+    geoservices.get({ host: 'example.com', path: '/ArcGIS/rest/services' });
+    
+    beforeExit(function() {
+      req.done();
+      nock.cleanAll();
+    });
+  },
 };
