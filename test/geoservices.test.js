@@ -1,4 +1,4 @@
-var assert, geoservices, getTest, nock;
+var assert, expectRequest, geoservices, getUrlTest, nock;
 
 geoservices = require("../");
 
@@ -6,17 +6,23 @@ assert = require("assert");
 
 nock = require("nock");
 
-getTest = function(requestedPath, expectedPath, filter) {
+expectRequest = function(requestedPath, expectedPath, response, filter) {
+  var req;
+  if (filter == null) filter = true;
+  req = nock("http://example.com");
+  if (filter) req = req.filteringPath(/\?.+$/, "");
+  req.get(expectedPath || "").reply(200, response);
+  return req;
+};
+
+getUrlTest = function(requestedPath, expectedPath, filter) {
   return function(beforeExit) {
     var req;
-    if (filter == null) filter = true;
-    req = nock("http://example.com");
-    if (filter) req = req.filteringPath(/\?.+$/, "");
-    req.get(expectedPath || "").reply();
+    req = expectRequest(requestedPath, expectedPath, "{}", filter);
     geoservices.get({
       host: "example.com",
       path: requestedPath
-    });
+    }, function() {});
     return beforeExit(function() {
       req.done();
       return nock.cleanAll();
@@ -25,9 +31,21 @@ getTest = function(requestedPath, expectedPath, filter) {
 };
 
 module.exports = {
-  "get requests the specified URL": getTest("/ArcGIS/rest/services", "/ArcGIS/rest/services", true),
-  "get allows null path": getTest(null, "", true),
-  "get allows undefined path": getTest(void 0, "", true),
-  "get adds json format parameter": getTest("", "?f=json", false),
-  "leaves format parameter if present": getTest("?f=pson", "?f=pson", false)
+  "get requests the specified URL": getUrlTest("/ArcGIS/rest/services", "/ArcGIS/rest/services", true),
+  "get allows null path": getUrlTest(null, "", true),
+  "get allows undefined path": getUrlTest(void 0, "", true),
+  "get adds json format parameter": getUrlTest("", "?f=json", false),
+  "get leaves format parameter if present": getUrlTest("?f=pson", "?f=pson", false),
+  "get parses and returns response": function(beforeExit) {
+    var req;
+    req = expectRequest("", "", '{ "success": true }', true);
+    return geoservices.get({
+      host: "example.com",
+      path: ""
+    }, function(result) {
+      return assert.eql(result, {
+        success: true
+      });
+    });
+  }
 };
