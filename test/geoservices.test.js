@@ -22,7 +22,7 @@ getUrlTest = function(requestedPath, expectedPath, filter) {
     geoservices.get({
       host: "example.com",
       path: requestedPath
-    }, function() {});
+    });
     return beforeExit(function() {
       req.done();
       return nock.cleanAll();
@@ -36,16 +36,35 @@ module.exports = {
   "get allows undefined path": getUrlTest(void 0, "", true),
   "get adds json format parameter": getUrlTest("", "?f=json", false),
   "get leaves format parameter if present": getUrlTest("?f=pson", "?f=pson", false),
+  "get adds params to querystring": function(beforeExit) {
+    var req;
+    req = expectRequest("", "?param1=value1&f=json", "{}", false);
+    geoservices.get({
+      host: "example.com",
+      path: "",
+      params: {
+        param1: "value1"
+      }
+    });
+    return beforeExit(function() {
+      req.done();
+      return nock.cleanAll();
+    });
+  },
   "get parses and returns response": function(beforeExit) {
     var req;
     req = expectRequest("", "", '{ "success": true }', true);
-    return geoservices.get({
+    geoservices.get({
       host: "example.com",
       path: ""
     }, function(result) {
       return assert.eql(result, {
         success: true
       });
+    });
+    return beforeExit(function() {
+      req.done();
+      return nock.cleanAll();
     });
   }
 };

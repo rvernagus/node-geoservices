@@ -1,14 +1,17 @@
 http = require "http"
 url = require "url"
+querystring = require "querystring"
 
-addJsonFormatParam = (path) ->
-  pathUrl = url.parse(path || "", true)
-  pathUrl.query.f = "json"
-  url.format pathUrl
+addParamsToPath = (options) ->
+  pathUrl = url.parse(options.path || "", true)
+  options.params ?= {}
+  options.params.f = "json"
+  pathUrl.query = options.params
+  options.path = url.format pathUrl
 
 module.exports =
   get: (options, callback) ->
-    options.path = addJsonFormatParam options.path
+    addParamsToPath options
     
     req = http.request options
     req.on "response", (res) ->
@@ -19,8 +22,8 @@ module.exports =
       res.on "end", () ->
         try
           resultAsJson = JSON.parse result
-          callback resultAsJson
+          callback resultAsJson if callback
         catch err
-          throw new Error(err.toString())
+          throw err
     
     req.end()
