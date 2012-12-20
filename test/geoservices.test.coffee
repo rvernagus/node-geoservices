@@ -23,13 +23,13 @@ getUrlTest = (requestedPath, expectedPath, filter) ->
 
 module.exports =
   "get requests the specified URL":
-    getUrlTest "/ArcGIS/rest/services", "/ArcGIS/rest/services", true
+    getUrlTest "/ArcGIS/rest/services", "/ArcGIS/rest/services"
   
   "get allows null path":
-    getUrlTest null, "", true
+    getUrlTest null, ""
   
   "get allows undefined path":
-    getUrlTest undefined, "", true
+    getUrlTest undefined, ""
   
   "get adds json format parameter":
     getUrlTest "", "?f=json", false
@@ -39,19 +39,30 @@ module.exports =
     
   "get adds params to querystring": (beforeExit) ->
     req = expectRequest "", "?param1=value1&f=json", "{}", false
-    geoservices.get { host: "example.com", path: "", params: { param1: "value1" }}
+    geoservices.get { host: "example.com", params: { param1: "value1" }}
     
     beforeExit ->
       req.done()
       nock.cleanAll()
       
   "get parses and returns response": (beforeExit) ->
-    req = expectRequest "", "", '{ "success": true }', true
-    geoservices.get { host: "example.com", path: "" }, (result) ->
+    req = expectRequest "", "", '{ "success": true }'
+    geoservices.get { host: "example.com" }, (result) ->
       assert.eql result, { success: true }
   
     beforeExit ->
       req.done()
       nock.cleanAll()
       
-  #"what happens on JSON parse error?": -> throw new Error("TO DO")
+  "get returns an error object when response cannot be parsed": (beforeExit) ->
+    req = expectRequest "", "", "<xml>this is not json</xml>"
+    
+    geoservices.get { host: "example.com" }, (result) ->
+      assert.isDefined result.error
+      assert.isDefined result.responseBody
+      assert.eql "Response body is not valid JSON", result.error
+      assert.eql "<xml>this is not json</xml>", result.responseBody
+    
+    beforeExit ->
+      req.done()
+      nock.cleanAll()

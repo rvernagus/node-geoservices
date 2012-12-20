@@ -2,6 +2,7 @@ http = require "http"
 url = require "url"
 querystring = require "querystring"
 
+
 addParamsToPath = (options) ->
   pathUrl = url.parse(options.path || "", true)
   options.params ?= {}
@@ -20,10 +21,13 @@ module.exports =
         result += data
         
       res.on "end", () ->
+        resultAsJson = null
         try
           resultAsJson = JSON.parse result
-          callback resultAsJson if callback
         catch err
-          throw err
-    
+          resultAsJson =
+            error: "Response body is not valid JSON"
+            responseBody: result
+          
+        callback resultAsJson if callback
     req.end()
