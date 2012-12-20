@@ -32,6 +32,9 @@ getUrlTest = function(requestedPath, expectedPath, filter) {
 
 module.exports = {
   "get requests the specified URL": getUrlTest("/ArcGIS/rest/services", "/ArcGIS/rest/services"),
+  "get throws error if no host": assert.throws(function() {
+    return geoservices.get();
+  }),
   "get allows null path": getUrlTest(null, ""),
   "get allows undefined path": getUrlTest(void 0, ""),
   "get adds json format parameter": getUrlTest("", "?f=json", false),

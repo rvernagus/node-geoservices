@@ -25,6 +25,9 @@ module.exports =
   "get requests the specified URL":
     getUrlTest "/ArcGIS/rest/services", "/ArcGIS/rest/services"
   
+  "get throws error if no host":
+    assert.throws -> geoservices.get()
+  
   "get allows null path":
     getUrlTest null, ""
   

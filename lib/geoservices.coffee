@@ -12,6 +12,9 @@ addParamsToPath = (options) ->
 
 module.exports =
   get: (options, callback) ->
+    options ?= {}
+    throw new Error("Must include host in options") unless options.host?
+  
     addParamsToPath options
     
     req = http.request options
