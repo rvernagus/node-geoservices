@@ -2,70 +2,61 @@ geoservices = require "../"
 assert = require "assert"
 nock = require "nock"
 
-expectRequest = (requestedPath, expectedPath, response, filter) ->
-  filter ?= true
-    
+expectRequest = (requestedPath, expectedPath, response, filter=true) ->
   req = nock "http://example.com"
   req = req.filteringPath(/\?.+$/, "") if filter
   req.get(expectedPath || "").reply(200, response)
   req
 
 getUrlTest = (requestedPath, expectedPath, filter) ->
-  (beforeExit) ->
-    req = expectRequest requestedPath, expectedPath, "{}", filter
-    
-    geoservices.get { host: "example.com", path: requestedPath }
-    
-    beforeExit ->
-      req.done()
-      nock.cleanAll()
+  (done) ->
+    expectRequest requestedPath, expectedPath, "{}", filter
+    geoservices.get
+      host: "example.com"
+      path: requestedPath
 
+    nock.cleanAll()
+    done()
 
-module.exports =
-  "get requests the specified URL":
-    getUrlTest "/ArcGIS/rest/services", "/ArcGIS/rest/services"
-  
-  "get throws error if no host":
-    assert.throws -> geoservices.get()
-  
-  "get allows null path":
-    getUrlTest null, ""
-  
-  "get allows undefined path":
-    getUrlTest undefined, ""
-  
-  "get adds json format parameter":
-    getUrlTest "", "?f=json", false
-  
-  "get leaves format parameter if present":
-    getUrlTest "?f=pson", "?f=pson", false
+describe "geoservices", ->
+  describe "get", ->
+    it "should request the specified URL",
+      getUrlTest("/ArcGIS/rest/services", "/ArcGIS/rest/services")
     
-  "get adds params to querystring": (beforeExit) ->
-    req = expectRequest "", "?param1=value1&f=json", "{}", false
-    geoservices.get { host: "example.com", params: { param1: "value1" }}
+    it "should throw an error if no host", ->
+      assert.throws -> geoservices.get()
+
+    it "should allow null path",
+      getUrlTest(null, "")
     
-    beforeExit ->
-      req.done()
-      nock.cleanAll()
+    it "should allow undefined path",
+      getUrlTest(undefined, "")
+  
+    it "should add json format parameter",
+      getUrlTest("", "?f=json", false)
+  
+    it "should leave format parameter if present",
+      getUrlTest("?f=pjson", "?f=pjson", false)
+    
+    it "should add params to querystring", (done) ->
+      expectRequest "", "?param1=value1&f=json", "{}", false
+      geoservices.get { host: "example.com", params: { param1: "value1" }}
       
-  "get parses and returns response": (beforeExit) ->
-    req = expectRequest "", "", '{ "success": true }'
-    geoservices.get { host: "example.com" }, (result) ->
-      assert.eql result, { success: true }
-  
-    beforeExit ->
-      req.done()
       nock.cleanAll()
+      done()
+        
+    it "should parse and return response", (done) ->
+      expectRequest "", "", '{ "success": true }'
+      geoservices.get { host: "example.com" }, (result) ->
+        assert.deepEqual result, { success: true }
+        nock.cleanAll()
+        done()
       
-  "get returns an error object when response cannot be parsed": (beforeExit) ->
-    req = expectRequest "", "", "<xml>this is not json</xml>"
-    
-    geoservices.get { host: "example.com" }, (result) ->
-      assert.isDefined result.error
-      assert.isDefined result.responseBody
-      assert.eql "Response body is not valid JSON", result.error
-      assert.eql "<xml>this is not json</xml>", result.responseBody
-    
-    beforeExit ->
-      req.done()
-      nock.cleanAll()
+    it "should return an error object when response cannot be parsed", (done) ->
+      expectRequest "", "", "<xml>this is not json</xml>"
+      
+      geoservices.get { host: "example.com" }, (result) ->
+        assert.deepEqual "Response body is not valid JSON", result.error
+        assert.deepEqual "<xml>this is not json</xml>", result.responseBody
+        nock.cleanAll()
+        done()
