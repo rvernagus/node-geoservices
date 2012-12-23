@@ -23,7 +23,7 @@ module.exports =
       res.on "data", (data) ->
         result += data
         
-      res.on "end", () ->
+      res.on "end", ->
         resultAsJson = null
         try
           resultAsJson = JSON.parse result
