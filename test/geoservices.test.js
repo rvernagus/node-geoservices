@@ -233,12 +233,19 @@ describe("geoservices", function() {
       });
       return assert.equal(result, "key=1");
     });
-    return it("should support comma-separated values", function() {
+    it("should support comma-separated values", function() {
       var result;
       result = geoservices.serializeBody({
         key: "1,2,3"
       });
       return assert.equal(result, "key=1,2,3");
+    });
+    return it("should support null values", function() {
+      var result;
+      result = geoservices.serializeBody({
+        key: null
+      });
+      return assert.equal(result, "key=");
     });
   });
 });

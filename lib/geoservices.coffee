@@ -13,10 +13,11 @@ addParamsToPath = (options) ->
 serializeBody = (body) ->
   result = ""
   for key of body
-    if typeof body[key] == "object"
-      stringifiedVal = JSON.stringify body[key]
+    val = body[key] || ""
+    if typeof val == "object"
+      stringifiedVal = JSON.stringify val
     else
-      stringifiedVal = body[key].toString()
+      stringifiedVal = val.toString()
     result += "&#{key}=#{stringifiedVal}"
   result.substring 1
 

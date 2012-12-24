@@ -170,4 +170,8 @@ describe "geoservices", ->
     it "should support comma-separated values", ->
       result = geoservices.serializeBody { key: "1,2,3" }
       assert.equal result, "key=1,2,3"
+    
+    it "should support null values", ->
+      result = geoservices.serializeBody { key: null }
+      assert.equal result, "key="
   
