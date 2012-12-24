@@ -108,11 +108,19 @@ describe "geoservices", ->
         nock.cleanAll()
         done()
     
-    it "should serialize params to body", (done) ->
+    it "should serialize params object to body, adding json format param", (done) ->
       nock("http://example.com")
-        .post("", "param1=value1&param2=value2")
+        .post("", "param1=value1&param2=value2&f=json")
         .reply(200, "")
       geoservices.post { host: "example.com", params: { param1: "value1", param2: "value2" }}, ->
+        nock.cleanAll()
+        done()
+    
+    it "should serialize params object array to body", (done) ->
+      nock("http://example.com")
+        .post("", 'param1=[{"param2":"value2","param3":"value3"}]&f=json')
+        .reply(200, "")
+      geoservices.post { host: "example.com", params: { param1: [{ param2: "value2", param3: "value3" }]}}, ->
         nock.cleanAll()
         done()
     
@@ -137,3 +145,21 @@ describe "geoservices", ->
         assert.deepEqual "<xml>this is not json</xml>", result.responseBody
         nock.cleanAll()
         done()
+  
+  describe "serializeBody", ->
+    it "should use format key=val", ->
+      result = geoservices.serializeBody { key: "val" }
+      assert.equal result, "key=val"
+    
+    it "should support multiple keys", ->
+      result = geoservices.serializeBody { key1: "val1", key2: "val2", key3: "val3" }
+      assert.equal result, "key1=val1&key2=val2&key3=val3"
+    
+    it "should support deep objects", ->
+      result = geoservices.serializeBody { key1: { key2: "val2" }}
+      assert.equal result, 'key1={"key2":"val2"}'
+    
+    it "should support array values", ->
+      result = geoservices.serializeBody { key: ["val1", "val2"]}
+      assert.equal result, 'key=["val1","val2"]'
+  

@@ -123,7 +123,7 @@ describe("geoservices", function() {
       });
     });
   });
-  return describe("post", function() {
+  describe("post", function() {
     it("should request the specified URL", postUrlTest("/ArcGIS/rest/services", "/ArcGIS/rest/services"));
     it("should use method POST", postUrlTest("", ""));
     it("should throw an error if no host", function() {
@@ -142,13 +142,30 @@ describe("geoservices", function() {
         return done();
       });
     });
-    it("should serialize params to body", function(done) {
-      nock("http://example.com").post("", "param1=value1&param2=value2").reply(200, "");
+    it("should serialize params object to body, adding json format param", function(done) {
+      nock("http://example.com").post("", "param1=value1&param2=value2&f=json").reply(200, "");
       return geoservices.post({
         host: "example.com",
         params: {
           param1: "value1",
           param2: "value2"
+        }
+      }, function() {
+        nock.cleanAll();
+        return done();
+      });
+    });
+    it("should serialize params object array to body", function(done) {
+      nock("http://example.com").post("", 'param1=[{"param2":"value2","param3":"value3"}]&f=json').reply(200, "");
+      return geoservices.post({
+        host: "example.com",
+        params: {
+          param1: [
+            {
+              param2: "value2",
+              param3: "value3"
+            }
+          ]
         }
       }, function() {
         nock.cleanAll();
@@ -185,6 +202,40 @@ describe("geoservices", function() {
         nock.cleanAll();
         return done();
       });
+    });
+  });
+  return describe("serializeBody", function() {
+    it("should use format key=val", function() {
+      var result;
+      result = geoservices.serializeBody({
+        key: "val"
+      });
+      return assert.equal(result, "key=val");
+    });
+    it("should support multiple keys", function() {
+      var result;
+      result = geoservices.serializeBody({
+        key1: "val1",
+        key2: "val2",
+        key3: "val3"
+      });
+      return assert.equal(result, "key1=val1&key2=val2&key3=val3");
+    });
+    it("should support deep objects", function() {
+      var result;
+      result = geoservices.serializeBody({
+        key1: {
+          key2: "val2"
+        }
+      });
+      return assert.equal(result, 'key1={"key2":"val2"}');
+    });
+    return it("should support array values", function() {
+      var result;
+      result = geoservices.serializeBody({
+        key: ["val1", "val2"]
+      });
+      return assert.equal(result, 'key=["val1","val2"]');
     });
   });
 });

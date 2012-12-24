@@ -11,6 +11,16 @@ addParamsToPath = (options) ->
   options.path = url.format pathUrl
 
 module.exports =
+  serializeBody: (body) ->
+    result = ""
+    for key of body
+      if typeof body[key] == "object"
+        stringifiedBody = JSON.stringify body[key]
+      else
+        stringifiedBody = body[key].toString()
+      result += "&#{key}=#{stringifiedBody}"
+    result.substring 1
+    
   get: (options={}, callback) ->
     throw new Error("Must include host in options") unless options.host?
   
@@ -40,7 +50,8 @@ module.exports =
     options.path ||= ""
     options.method = "POST"
     options.headers = { "Content-Type": "application/x-www-form-urlencoded" }
-    body = querystring.stringify options.params
+    options.params.f = "json" if options.params
+    body = @serializeBody options.params
 
     req = http.request options
     req.on "response", (res) ->
