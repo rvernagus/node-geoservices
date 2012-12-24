@@ -230,12 +230,26 @@ describe("geoservices", function() {
       });
       return assert.equal(result, 'key1={"key2":"val2"}');
     });
-    return it("should support array values", function() {
+    it("should support array values", function() {
       var result;
       result = geoservices.serializeBody({
-        key: ["val1", "val2"]
+        key: ["val1", "val2", 1]
       });
-      return assert.equal(result, 'key=["val1","val2"]');
+      return assert.equal(result, 'key=["val1","val2",1]');
+    });
+    it("should support number values", function() {
+      var result;
+      result = geoservices.serializeBody({
+        key: 1
+      });
+      return assert.equal(result, "key=1");
+    });
+    return it("should support comma-separated values", function() {
+      var result;
+      result = geoservices.serializeBody({
+        key: "1,2,3"
+      });
+      return assert.equal(result, "key=1,2,3");
     });
   });
 });

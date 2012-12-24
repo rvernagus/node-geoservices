@@ -160,6 +160,14 @@ describe "geoservices", ->
       assert.equal result, 'key1={"key2":"val2"}'
     
     it "should support array values", ->
-      result = geoservices.serializeBody { key: ["val1", "val2"]}
-      assert.equal result, 'key=["val1","val2"]'
+      result = geoservices.serializeBody { key: ["val1", "val2", 1]}
+      assert.equal result, 'key=["val1","val2",1]'
+    
+    it "should support number values", ->
+      result = geoservices.serializeBody { key: 1 }
+      assert.equal result, "key=1"
+    
+    it "should support comma-separated values", ->
+      result = geoservices.serializeBody { key: "1,2,3" }
+      assert.equal result, "key=1,2,3"
   
