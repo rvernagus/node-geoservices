@@ -11,8 +11,7 @@ addParamsToPath = (options) ->
   options.path = url.format pathUrl
 
 module.exports =
-  get: (options, callback) ->
-    options ?= {}
+  get: (options={}, callback) ->
     throw new Error("Must include host in options") unless options.host?
   
     addParamsToPath options
@@ -34,3 +33,30 @@ module.exports =
           
         callback resultAsJson if callback
     req.end()
+  
+  post: (options={}, callback) ->
+    throw new Error("Must include host in options") unless options.host?
+  
+    options.path ||= ""
+    options.method = "POST"
+    options.headers = { "Content-Type": "application/x-www-form-urlencoded" }
+    body = querystring.stringify options.params
+
+    req = http.request options
+    req.on "response", (res) ->
+      result = ""
+      res.on "data", (data) ->
+        result += data
+        
+      res.on "end", ->
+        resultAsJson = null
+        try
+          resultAsJson = JSON.parse result
+        catch err
+          resultAsJson =
+            error: "Response body is not valid JSON"
+            responseBody: result
+          
+        callback resultAsJson if callback
+        
+    req.end body

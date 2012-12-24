@@ -2,11 +2,19 @@ geoservices = require "../"
 assert = require "assert"
 nock = require "nock"
 
-expectGetRequest = (requestedPath, expectedPath, response, filter=true) ->
+expectRequest = (requestedPath, expectedPath, response, method, filter=true) ->
   req = nock "http://example.com"
   req = req.filteringPath(/\?.+$/, "") if filter
-  req.get(expectedPath || "").reply(200, response)
+  m = req[method]
+  m(expectedPath || "").reply(200, response)
   req
+
+expectGetRequest = (requestedPath, expectedPath, response, filter=true) ->
+  expectRequest requestedPath, expectedPath, response, "get", filter
+
+expectPostRequest = (requestedPath, expectedPath, response, filter=true) ->
+  expectRequest requestedPath, expectedPath, response, "post", filter
+  
 
 getUrlTest = (requestedPath, expectedPath, filter) ->
   (done) ->
@@ -14,6 +22,14 @@ getUrlTest = (requestedPath, expectedPath, filter) ->
     geoservices.get { host: "example.com", path: requestedPath }, ->
       nock.cleanAll()
       done()
+
+postUrlTest = (requestedPath, expectedPath, response="{}", filter) ->
+  (done) ->
+    expectPostRequest requestedPath, expectedPath, response, filter
+    geoservices.post { host: "example.com", path: requestedPath }, ->
+      nock.cleanAll()
+      done()
+
 
 describe "geoservices", ->
   describe "get", ->
@@ -50,11 +66,73 @@ describe "geoservices", ->
         assert.deepEqual result, { success: true }
         nock.cleanAll()
         done()
+
+    it "should allow no callback", (done) ->
+      expectGetRequest "", ""
+      geoservices.get { host: "example.com" }
+      nock.cleanAll()
+      done()
       
     it "should return an error object when response cannot be parsed", (done) ->
       expectGetRequest "", "", "<xml>this is not json</xml>"
       
       geoservices.get { host: "example.com" }, (result) ->
+        assert.deepEqual "Response body is not valid JSON", result.error
+        assert.deepEqual "<xml>this is not json</xml>", result.responseBody
+        nock.cleanAll()
+        done()
+        
+        
+  describe "post", ->
+    it "should request the specified URL",
+      postUrlTest "/ArcGIS/rest/services", "/ArcGIS/rest/services"
+    
+    it "should use method POST",
+      postUrlTest "", ""
+    
+    it "should throw an error if no host", ->
+      assert.throws -> geoservices.post()
+  
+    it "should allow null path",
+      postUrlTest null, ""
+    
+    it "should allow undefined path",
+      postUrlTest undefined, ""
+    
+    it "should add appropriate Content-Type header", (done) ->
+      nock("http://example.com")
+        .matchHeader("Content-Type", "application/x-www-form-urlencoded")
+        .post("")
+        .reply(200, "")
+      geoservices.post { host: "example.com" }, ->
+        nock.cleanAll()
+        done()
+    
+    it "should serialize params to body", (done) ->
+      nock("http://example.com")
+        .post("", "param1=value1&param2=value2")
+        .reply(200, "")
+      geoservices.post { host: "example.com", params: { param1: "value1", param2: "value2" }}, ->
+        nock.cleanAll()
+        done()
+    
+    it "should parse and return response", (done) ->
+      expectPostRequest "", "", '{ "success": true }'
+      geoservices.post { host: "example.com" }, (result) ->
+        assert.deepEqual result, { success: true }
+        nock.cleanAll()
+        done()
+    
+    it "should allow no callback", (done) ->
+      expectPostRequest "", ""
+      geoservices.post { host: "example.com" }
+      nock.cleanAll()
+      done()
+      
+    it "should return an error object when response cannot be parsed", (done) ->
+      expectPostRequest "", "", "<xml>this is not json</xml>"
+      
+      geoservices.post { host: "example.com" }, (result) ->
         assert.deepEqual "Response body is not valid JSON", result.error
         assert.deepEqual "<xml>this is not json</xml>", result.responseBody
         nock.cleanAll()
