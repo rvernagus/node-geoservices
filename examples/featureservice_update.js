@@ -6,9 +6,9 @@ var options = {
   params: {
     features: [{
       attributes: {
-        objectid: 250529, // This example requires a valid OBJECTID to work
-        note: 'Node.js was here =) (UPDATED)',
-        link: '',
+        objectid: 250926, // This example requires a valid OBJECTID to work
+        note: 'Created with the node.js geoservices wrapper',
+        link: 'https://github.com/rvernagus/node-geoservices',
         name: 'tester2'
       },
       geometry: {

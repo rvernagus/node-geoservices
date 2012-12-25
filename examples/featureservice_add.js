@@ -6,8 +6,8 @@ var options = {
   params: {
     features: [{
       attributes: {
-        note: 'Node.js was here =)',
-        link: '',
+        note: 'Created with the node.js geoservices wrapper',
+        link: 'https://github.com/rvernagus/node-geoservices',
         name: 'tester'
       },
       geometry: {
