@@ -16,9 +16,9 @@ options = {
   host: 'sampleserver1.arcgisonline.com',
   path: '/ArcGIS/rest/services/Specialty/ESRI_StateCityHighway_USA/MapServer/1/query',
   params: {
-    geometry: "-125.4,35.2,-118.7,43.8",
-    geometryType: "esriGeometryEnvelope",
-    where: "POP1999>5000000"
+    geometry: '-125.4,35.2,-118.7,43.8',
+    geometryType: 'esriGeometryEnvelope',
+    where: 'POP1999>5000000'
   }
 };
 
