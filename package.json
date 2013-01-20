@@ -1,0 +1,28 @@
+{
+  "name": "node-geoservices",
+  "version": "0.1.0",
+  "description": "A thin Node.js client for the ESRI GeoServices API.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rvernagus/node-geoservices.git"
+  },
+  "keywords": [
+    "geoservices",
+    "gis"
+  ],
+  "devDependencies": {
+    "mocha": "~1.7.4",
+    "nock": "~0.14.3"
+  },
+  "author": "Ray Vernagus",
+  "license": "MIT",
+  "gitHead": "785a6a92536db7dc0b5f70e71e5d4b5241ccff2e"
+}
