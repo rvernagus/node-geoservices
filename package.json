@@ -19,7 +19,9 @@
     "gis"
   ],
   "devDependencies": {
+    "grunt-coffee": "*",
     "grunt-coffeelint": "*",
+    "grunt-simple-mocha": "*",
     "mocha": "~1.7.4",
     "nock": "~0.14.3"
   },
