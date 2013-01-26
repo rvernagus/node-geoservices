@@ -7,6 +7,9 @@ A thin Node.js client for the ESRI GeoServices API.
 
 http://www.esri.com/library/whitepapers/pdfs/geoservices-rest-spec.pdf
 
+### When to Use
+Use node-geoservices in Node.js applications that need to interact with [ArcGIS for Server](http://www.esri.com/software/arcgis/arcgisserver).
+
 ### Usage
 Require:
 ```javascript
