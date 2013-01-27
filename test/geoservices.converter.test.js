@@ -32,6 +32,7 @@ describe("geoservices converter", function() {
       };
       return assert.deepEqual(result, expected);
     });
+    it("should error upon empty point", function() {});
     it("should convert a multipoint", function() {
       var expected, result;
       this.esriFeature.geometry = {

@@ -1,0 +1,361 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"graphi",
+				"graphics"
+			],
+			[
+				"geo",
+				"geographicToWebMercator"
+			],
+			[
+				"esri",
+				"esriFeature"
+			],
+			[
+				"ex",
+				"exports"
+			],
+			[
+				"F",
+				"function"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "node-geoservices.sublime-project",
+			"settings":
+			{
+				"buffer_size": 45,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "Packages/User/test.sublime-build",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"grunt",
+				"Grunt"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"repl",
+				"SublimeREPL: Erlang"
+			],
+			[
+				"git",
+				"Package Control: Install Package"
+			],
+			[
+				"snipp",
+				"Snippet: Class"
+			],
+			[
+				"Snippet: ",
+				"Snippet: Anonymous Function"
+			]
+		],
+		"width": 416.0
+	},
+	"console":
+	{
+		"height": 346.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": true,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Ray/Projects/how-to/Patterns/Design Patterns/Adapter/applied_example.js",
+		"/C/Users/Ray/Projects/how-to/Patterns/Design Patterns/Adapter/abstract_example.js",
+		"/C/Users/Ray/Projects/how-to/Patterns/Design Patterns/Adapter/applied_example.rb",
+		"/C/Users/Ray/Projects/how-to/Javascript/oop.js",
+		"/C/Users/Ray/Projects/how-to/Patterns/Design Patterns/Adapter/abstract_example.JS",
+		"/C/Users/Ray/Projects/how-to/Patterns/Design Patterns/Abstract Factory/abstract_example.js",
+		"/C/Users/Ray/Projects/how-to/Patterns/Design Patterns/Abstract Factory/applied_example.js",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/openlayers/geojson.jade",
+		"/C/Users/Ray/Projects/how-to/Patterns/Design Patterns/Abstract Factory/abstract_example.rb",
+		"/C/Users/Ray/Projects/how-to/Patterns/Design Patterns/Abstract Factory/applied_example.rb",
+		"/C/Users/Ray/Projects/how-to/Azure/Topics.fsx",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/openlayers/line.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/bing/geojson.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/google/geojson.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/index.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/openlayers/geojson.jad",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/google/map.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/google/polygon.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/esri/geojson.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/bing/map.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/routes/index.coffee",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/esri/line.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/leaflet/geojson.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/tile5/point.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/bing/point.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/bing/popup.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/bing/line.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/esri/popup.jade",
+		"/C/Users/Ray/AppData/Roaming/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/esri/polygon.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/esri/point.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/esri/map.jade",
+		"/C/Users/Ray/Projects/how-to/TypeScript/classes5.ts",
+		"/C/Users/Ray/Projects/how-to/TypeScript/classes5.js",
+		"/C/Users/Ray/Projects/ce-gis-design/express/app.ts",
+		"/C/Users/Ray/Projects/ce-gis-poc/app.coffee",
+		"/C/Users/Ray/Projects/ce-gis-poc/grunt.js",
+		"/C/Users/Ray/Projects/ce-gis-poc/views/leaflet/popup.jade",
+		"/C/Users/Ray/Projects/ce-gis-poc/app.js",
+		"/C/Users/Ray/Projects/node-geoservices/test/geoservices.test.coffee",
+		"/C/Users/Ray/Projects/node-geoservices/node_modules/grunt-coffee/.travis.yml",
+		"/C/Users/Ray/Projects/node-geoservices/index.js",
+		"/C/Users/Ray/Projects/node-geoservices/grunt.js",
+		"/C/Users/Ray/AppData/Roaming/Sublime Text 2/Packages/User/test.sublime-build"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			":",
+			" //{",
+			"puts",
+			"name",
+			"\"",
+			"}\n",
+			"end",
+			"def",
+			"class",
+			"// ",
+			"#",
+			"end",
+			"puts",
+			"def",
+			"class",
+			"def",
+			"end",
+			"Wildebeest",
+			"class",
+			"restrictedExtent",
+			"i",
+			"geopoint",
+			"open",
+			"points",
+			"poly",
+			"p1",
+			"newPoly",
+			"p2",
+			"webPoint",
+			"	",
+			"graphicsLayer",
+			" "
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"'",
+			"  "
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "node-geoservices.sublime-project",
+					"settings":
+					{
+						"buffer_size": 45,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								34,
+								34
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 38.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 249.0
+	},
+	"output.git":
+	{
+		"height": 276.0
+	},
+	"output.run_mocha":
+	{
+		"height": 0.0
+	},
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"gejson",
+				"views/bing/geojson.jade"
+			],
+			[
+				"inde",
+				"views/index.jade"
+			],
+			[
+				"index",
+				"views/index.jade"
+			],
+			[
+				"poly",
+				"views/google/polygon.jade"
+			],
+			[
+				"map",
+				"views/google/map.jade"
+			],
+			[
+				"line",
+				"views/esri/line.jade"
+			],
+			[
+				"geojs",
+				"views/leaflet/geojson.jade"
+			],
+			[
+				"geos",
+				"views/esri/geojson.jade"
+			],
+			[
+				"point",
+				"views/bing/point.jade"
+			],
+			[
+				"popp",
+				"views/esri/popup.jade"
+			],
+			[
+				"map.j",
+				"views/bing/map.jade"
+			],
+			[
+				"index.jade",
+				"views/index.jade"
+			],
+			[
+				"",
+				"node_modules/grunt-coffee/.travis.yml"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 201.0,
+	"status_bar_visible": true
+}
