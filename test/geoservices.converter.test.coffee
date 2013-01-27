@@ -23,6 +23,11 @@ describe "geoservices converter", ->
     it "should error upon empty point", ->
       @esriFeature.geometry = {}
       assert.throws (-> geoservices.convert.toGeoJSON @esriFeature), Error
+    it "should convert an array of points", ->
+      @esriFeature.geometry = {x:1, y:2}
+      esriFeatures = [@esriFeature, @esriFeature]
+      result = geoservices.convert.toGeoJSON esriFeatures
+      assert.equal 2, result.length
 
     it "should convert a multipoint", ->
       @esriFeature.geometry = {points: [[1, 2], [3, 4]]}

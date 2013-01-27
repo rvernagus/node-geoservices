@@ -38,6 +38,16 @@ describe("geoservices converter", function() {
         return geoservices.convert.toGeoJSON(this.esriFeature);
       }), Error);
     });
+    it("should convert an array of points", function() {
+      var esriFeatures, result;
+      this.esriFeature.geometry = {
+        x: 1,
+        y: 2
+      };
+      esriFeatures = [this.esriFeature, this.esriFeature];
+      result = geoservices.convert.toGeoJSON(esriFeatures);
+      return assert.equal(2, result.length);
+    });
     it("should convert a multipoint", function() {
       var expected, result;
       this.esriFeature.geometry = {

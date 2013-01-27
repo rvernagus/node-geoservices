@@ -40,10 +40,16 @@ class GeoJSONConverter
     else
       throw new Error("Invalid geometry")
 
-  toGeoJSON: (esriFeature) ->
+  getGeoJSONFeature = (esriFeature) ->
     type: "Feature"
     properties: esriFeature.attributes
     geometry: getGeoJSONGeometry esriFeature
+
+  toGeoJSON: (esriIn) ->
+    if esriIn.length?
+      getGeoJSONFeature(f) for f in esriIn
+    else
+      getGeoJSONFeature esriIn
 
 module.exports =
   convert: new GeoJSONConverter()
