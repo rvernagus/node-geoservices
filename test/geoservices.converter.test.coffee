@@ -3,19 +3,43 @@ assert = require "assert"
 
 describe "geoservices converter", ->
   describe "when converting from ESRI", ->
-    it "should convert a point", ->
-      esriPoint =
+    before ->
+      @esriFeature =
         attributes:
           attr1: "val1"
-        geometry:
-          x: 1
-          y: 2
-      result = geoservices.convert.toGeoJSON esriPoint
+
+    it "should convert a point", ->
+      @esriFeature.geometry = {x:1, y:2}
+      result = geoservices.convert.toGeoJSON @esriFeature
       expected =
         type: "Feature"
         geometry:
           type: "Point"
           coordinates: [1, 2]
+        properties:
+          attr1: "val1"
+      assert.deepEqual result, expected
+
+    it "should convert a multipoint", ->
+      @esriFeature.geometry = {points: [[1, 2], [3, 4]]}
+      result = geoservices.convert.toGeoJSON @esriFeature
+      expected =
+        type: "Feature"
+        geometry:
+          type: "Multipoint"
+          coordinates: [[1, 2], [3, 4]]
+        properties:
+          attr1: "val1"
+      assert.deepEqual result, expected
+
+    it "should convert a one path polyline", ->
+      @esriFeature.geometry = {paths: [[[1,2],[3,4]]]}
+      result = geoservices.convert.toGeoJSON @esriFeature
+      expected =
+        type: "Feature"
+        geometry:
+          type: "LineString"
+          coordinates: [[[1,2],[3,4]]]
         properties:
           attr1: "val1"
       assert.deepEqual result, expected

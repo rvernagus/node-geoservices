@@ -22,14 +22,22 @@ serializeBody = (body) ->
   result.substring 1
 
 class GeoJSONConverter
-  toGeoJSON: (esriFeature) ->
-    result =
-      type: "Feature"
-      properties: esriFeature.attributes
-    result.geometry =
+  getGeoJSONGeometry = (esriFeature) ->
+    g = esriFeature.geometry
+    if g.x?
       type: "Point"
-      coordinates: [esriFeature.geometry.x, esriFeature.geometry.y]
-    result
+      coordinates: [g.x, g.y]
+    else if g.points?
+      type: "Multipoint"
+      coordinates: g.points
+    else if g.paths?
+      type: "LineString"
+      coordinates: g.paths
+
+  toGeoJSON: (esriFeature) ->
+    type: "Feature"
+    properties: esriFeature.attributes
+    geometry: getGeoJSONGeometry esriFeature
 
 module.exports =
   convert: new GeoJSONConverter()

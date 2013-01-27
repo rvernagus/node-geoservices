@@ -6,23 +6,61 @@ assert = require("assert");
 
 describe("geoservices converter", function() {
   return describe("when converting from ESRI", function() {
-    return it("should convert a point", function() {
-      var esriPoint, expected, result;
-      esriPoint = {
+    before(function() {
+      return this.esriFeature = {
         attributes: {
           attr1: "val1"
-        },
-        geometry: {
-          x: 1,
-          y: 2
         }
       };
-      result = geoservices.convert.toGeoJSON(esriPoint);
+    });
+    it("should convert a point", function() {
+      var expected, result;
+      this.esriFeature.geometry = {
+        x: 1,
+        y: 2
+      };
+      result = geoservices.convert.toGeoJSON(this.esriFeature);
       expected = {
         type: "Feature",
         geometry: {
           type: "Point",
           coordinates: [1, 2]
+        },
+        properties: {
+          attr1: "val1"
+        }
+      };
+      return assert.deepEqual(result, expected);
+    });
+    it("should convert a multipoint", function() {
+      var expected, result;
+      this.esriFeature.geometry = {
+        points: [[1, 2], [3, 4]]
+      };
+      result = geoservices.convert.toGeoJSON(this.esriFeature);
+      expected = {
+        type: "Feature",
+        geometry: {
+          type: "Multipoint",
+          coordinates: [[1, 2], [3, 4]]
+        },
+        properties: {
+          attr1: "val1"
+        }
+      };
+      return assert.deepEqual(result, expected);
+    });
+    return it("should convert a one path polyline", function() {
+      var expected, result;
+      this.esriFeature.geometry = {
+        paths: [[[1, 2], [3, 4]]]
+      };
+      result = geoservices.convert.toGeoJSON(this.esriFeature);
+      expected = {
+        type: "Feature",
+        geometry: {
+          type: "LineString",
+          coordinates: [[[1, 2], [3, 4]]]
         },
         properties: {
           attr1: "val1"
