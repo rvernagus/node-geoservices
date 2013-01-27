@@ -31,8 +31,12 @@ class GeoJSONConverter
       type: "Multipoint"
       coordinates: g.points
     else if g.paths?
-      type: "LineString"
-      coordinates: g.paths
+      if g.paths.length == 1
+        type: "LineString"
+        coordinates: g.paths
+      else
+        type: "MultiLineString"
+        coordinates: g.paths
 
   toGeoJSON: (esriFeature) ->
     type: "Feature"

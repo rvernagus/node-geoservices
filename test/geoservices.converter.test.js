@@ -50,7 +50,7 @@ describe("geoservices converter", function() {
       };
       return assert.deepEqual(result, expected);
     });
-    return it("should convert a one path polyline", function() {
+    it("should convert a one path polyline", function() {
       var expected, result;
       this.esriFeature.geometry = {
         paths: [[[1, 2], [3, 4]]]
@@ -61,6 +61,24 @@ describe("geoservices converter", function() {
         geometry: {
           type: "LineString",
           coordinates: [[[1, 2], [3, 4]]]
+        },
+        properties: {
+          attr1: "val1"
+        }
+      };
+      return assert.deepEqual(result, expected);
+    });
+    return it("should convert a two path polyline", function() {
+      var expected, result;
+      this.esriFeature.geometry = {
+        paths: [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+      };
+      result = geoservices.convert.toGeoJSON(this.esriFeature);
+      expected = {
+        type: "Feature",
+        geometry: {
+          type: "MultiLineString",
+          coordinates: [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
         },
         properties: {
           attr1: "val1"

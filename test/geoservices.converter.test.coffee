@@ -43,3 +43,15 @@ describe "geoservices converter", ->
         properties:
           attr1: "val1"
       assert.deepEqual result, expected
+
+    it "should convert a two path polyline", ->
+      @esriFeature.geometry = {paths: [[[1,2],[3,4]],[[5,6],[7,8]]]}
+      result = geoservices.convert.toGeoJSON @esriFeature
+      expected =
+        type: "Feature"
+        geometry:
+          type: "MultiLineString"
+          coordinates: [[[1,2],[3,4]],[[5,6],[7,8]]]
+        properties:
+          attr1: "val1"
+      assert.deepEqual result, expected
