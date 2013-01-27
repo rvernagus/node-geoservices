@@ -37,6 +37,8 @@ class GeoJSONConverter
       else
         type: "MultiLineString"
         coordinates: g.paths
+    else
+      throw new Error("Invalid geometry")
 
   toGeoJSON: (esriFeature) ->
     type: "Feature"

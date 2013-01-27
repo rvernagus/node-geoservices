@@ -21,6 +21,8 @@ describe "geoservices converter", ->
       assert.deepEqual result, expected
 
     it "should error upon empty point", ->
+      @esriFeature.geometry = {}
+      assert.throws (-> geoservices.convert.toGeoJSON @esriFeature), Error
 
     it "should convert a multipoint", ->
       @esriFeature.geometry = {points: [[1, 2], [3, 4]]}
