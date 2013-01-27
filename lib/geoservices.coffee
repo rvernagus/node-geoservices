@@ -21,9 +21,21 @@ serializeBody = (body) ->
     result += "&#{key}=#{stringifiedVal}"
   result.substring 1
 
+class GeoJSONConverter
+  toGeoJSON: (esriFeature) ->
+    result =
+      type: "Feature"
+      properties: esriFeature.attributes
+    result.geometry =
+      type: "Point"
+      coordinates: [esriFeature.geometry.x, esriFeature.geometry.y]
+    result
+
 module.exports =
+  convert: new GeoJSONConverter()
+
   serializeBody: serializeBody
-    
+
   get: (options={}, callback) ->
     throw new Error("Must include host in options") unless options.host?
   
