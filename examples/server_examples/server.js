@@ -20,6 +20,7 @@ app.get("/census_points", function(req, res) {
     host: "sampleserver1.arcgisonline.com",
     path: "/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer/0/query",
     params: {
+      outFields: "POP2000",
       geometry: "-85,42,-84,41",
       geometryType: "esriGeometryEnvelope"
     }

@@ -21,7 +21,7 @@
         }).addTo(map);
 
         var geojsonMarkerOptions = {
-          radius: 8,
+          radius: 4,
           fillColor: "#ff7800",
           color: "#000",
           weight: 1,
@@ -30,9 +30,13 @@
         };
         
         $.getJSON('/census_points', function(data) {
+          console.log('Rendering ' + data.length + ' features...')
           var points = L.geoJson(data, {
             pointToLayer: function (feature, latlng) {
               return L.circleMarker(latlng, geojsonMarkerOptions);
+            },
+            onEachFeature: function(feature, layer) {
+              layer.bindPopup('population: ' + feature.properties.POP2000);
             }
           }).addTo(map);
           map.fitBounds(points.getBounds());
