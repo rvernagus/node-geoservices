@@ -64,3 +64,15 @@ describe "geoservices converter", ->
         properties:
           attr1: "val1"
       assert.deepEqual result, expected
+
+    it "should convert a single ring polygon", ->
+      @esriFeature.geometry = {rings: [[[1,2],[3,4]],[[5,6],[1,2]]]}
+      result = geoservices.convert.toGeoJSON @esriFeature
+      expected =
+        type: "Feature"
+        geometry:
+          type: "Polygon"
+          coordinates: [[[1,2],[3,4]],[[5,6],[1,2]]]
+        properties:
+          attr1: "val1"
+      assert.deepEqual result, expected

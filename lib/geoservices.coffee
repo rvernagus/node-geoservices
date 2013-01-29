@@ -37,6 +37,9 @@ class GeoJSONConverter
       else
         type: "MultiLineString"
         coordinates: g.paths
+    else if g.rings?
+      type: "Polygon"
+      coordinates: g.rings
     else
       throw new Error("Invalid geometry")
 

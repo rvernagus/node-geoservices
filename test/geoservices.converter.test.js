@@ -84,7 +84,7 @@ describe("geoservices converter", function() {
       };
       return assert.deepEqual(result, expected);
     });
-    return it("should convert a two path polyline", function() {
+    it("should convert a two path polyline", function() {
       var expected, result;
       this.esriFeature.geometry = {
         paths: [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
@@ -95,6 +95,24 @@ describe("geoservices converter", function() {
         geometry: {
           type: "MultiLineString",
           coordinates: [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
+        },
+        properties: {
+          attr1: "val1"
+        }
+      };
+      return assert.deepEqual(result, expected);
+    });
+    return it("should convert a single ring polygon", function() {
+      var expected, result;
+      this.esriFeature.geometry = {
+        rings: [[[1, 2], [3, 4]], [[5, 6], [1, 2]]]
+      };
+      result = geoservices.convert.toGeoJSON(this.esriFeature);
+      expected = {
+        type: "Feature",
+        geometry: {
+          type: "Polygon",
+          coordinates: [[[1, 2], [3, 4]], [[5, 6], [1, 2]]]
         },
         properties: {
           attr1: "val1"
