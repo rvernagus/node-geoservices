@@ -28,7 +28,7 @@ class GeoJSONConverter
       type: "Point"
       coordinates: [g.x, g.y]
     else if g.points?
-      type: "Multipoint"
+      type: "MultiPoint"
       coordinates: g.points
     else if g.paths?
       if g.paths.length == 1

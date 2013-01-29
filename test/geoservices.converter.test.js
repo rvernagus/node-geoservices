@@ -46,7 +46,8 @@ describe("geoservices converter", function() {
       };
       esriFeatures = [this.esriFeature, this.esriFeature];
       result = geoservices.convert.toGeoJSON(esriFeatures);
-      return assert.equal(2, result.length);
+      assert.equal(2, result.length);
+      return assert.equal("Point", result[0].geometry.type);
     });
     it("should convert a multipoint", function() {
       var expected, result;
@@ -57,7 +58,7 @@ describe("geoservices converter", function() {
       expected = {
         type: "Feature",
         geometry: {
-          type: "Multipoint",
+          type: "MultiPoint",
           coordinates: [[1, 2], [3, 4]]
         },
         properties: {
@@ -65,6 +66,16 @@ describe("geoservices converter", function() {
         }
       };
       return assert.deepEqual(result, expected);
+    });
+    it("should convert an array of multipoints", function() {
+      var esriFeatures, result;
+      this.esriFeature.geometry = {
+        points: [[1, 2], [3, 4]]
+      };
+      esriFeatures = [this.esriFeature, this.esriFeature];
+      result = geoservices.convert.toGeoJSON(esriFeatures);
+      assert.equal(2, result.length);
+      return assert.equal("MultiPoint", result[0].geometry.type);
     });
     it("should convert a one path polyline", function() {
       var expected, result;
