@@ -32,6 +32,24 @@ app.get("/census_points", function(req, res) {
   });
 });
 
+app.get("/census_polys", function(req, res) {
+  var options;
+  options = {
+    host: "sampleserver1.arcgisonline.com",
+    path: "/ArcGIS/rest/services/Demographics/ESRI_Census_USA/MapServer/1/query",
+    params: {
+      outFields: "POP2000",
+      geometry: "-85,42,-84,41",
+      geometryType: "esriGeometryEnvelope"
+    }
+  };
+  return geoservices.get(options, function(esriFeatures) {
+    var result;
+    result = geoservices.convert.toGeoJSON(esriFeatures.features);
+    return res.end(JSON.stringify(result));
+  });
+});
+
 http.createServer(app).listen(app.get("port"), function() {
   return console.log("Express server listening on port " + app.get("port"));
 });

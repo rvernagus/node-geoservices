@@ -29,7 +29,7 @@
           fillOpacity: 0.8
         };
         
-        $.getJSON('/census_points', function(data) {
+        $.getJSON('/census_polys', function(data) {
           console.log('Rendering ' + data.length + ' features...')
           var points = L.geoJson(data, {
             pointToLayer: function (feature, latlng) {
