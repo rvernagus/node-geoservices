@@ -17,7 +17,6 @@ app.get "/census_points", (req, res) ->
       outFields: "POP2000"
       geometry: "-85,42,-84,41"
       geometryType: "esriGeometryEnvelope"
-
   geoservices.get options, (esriFeatures) ->
     result = geoservices.convert.toGeoJSON esriFeatures.features
     res.end JSON.stringify(result)
@@ -30,7 +29,18 @@ app.get "/census_polys", (req, res) ->
       outFields: "POP2000"
       geometry: "-85,42,-84,41"
       geometryType: "esriGeometryEnvelope"
+  geoservices.get options, (esriFeatures) ->
+    result = geoservices.convert.toGeoJSON esriFeatures.features
+    res.end JSON.stringify(result)
 
+app.get "/outage_polys", (req, res) ->
+  options =
+    host: "www.consumersenergy.com"
+    path: "/svcs/ArcGIS/rest/services/CEOutageMap/MapServer/4/query"
+    params:
+      where: "1=1"
+      outFields: "PCT_CUSTOMERS_OUT,OUTAGE_COUNT"
+      outSR: 4326
   geoservices.get options, (esriFeatures) ->
     result = geoservices.convert.toGeoJSON esriFeatures.features
     res.end JSON.stringify(result)

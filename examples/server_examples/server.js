@@ -50,6 +50,24 @@ app.get("/census_polys", function(req, res) {
   });
 });
 
+app.get("/outage_polys", function(req, res) {
+  var options;
+  options = {
+    host: "www.consumersenergy.com",
+    path: "/svcs/ArcGIS/rest/services/CEOutageMap/MapServer/4/query",
+    params: {
+      where: "1=1",
+      outFields: "PCT_CUSTOMERS_OUT,OUTAGE_COUNT",
+      outSR: 4326
+    }
+  };
+  return geoservices.get(options, function(esriFeatures) {
+    var result;
+    result = geoservices.convert.toGeoJSON(esriFeatures.features);
+    return res.end(JSON.stringify(result));
+  });
+});
+
 http.createServer(app).listen(app.get("port"), function() {
   return console.log("Express server listening on port " + app.get("port"));
 });

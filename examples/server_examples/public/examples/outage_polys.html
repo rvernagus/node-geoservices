@@ -20,20 +20,31 @@
           attribution: "node-geoservices"
         }).addTo(map);
 
-        var style = {
+        var noOutagesStyle = {
+          color: "#000",
+          weight: 0.5,
+          opacity: 1,
+          fillOpacity: 0
+        };
+        var outagesStyle = {
           fillColor: "#ff7800",
           color: "#000",
-          weight: 1,
+          weight: 0.5,
           opacity: 1,
           fillOpacity: 0.8
         };
         
-        $.getJSON('/census_polys', function(data) {
+        $.getJSON('/outage_polys', function(data) {
           console.log('Rendering ' + data.length + ' features...')
           var polys = L.geoJson(data, {
-            style: style,
+            style: function(feature) {
+              if (feature.properties.PCT_CUSTOMERS_OUT > 0)
+                return outagesStyle;
+              else
+                return noOutagesStyle;
+            },
             onEachFeature: function(feature, layer) {
-              layer.bindPopup('population: ' + feature.properties.POP2000);
+              layer.bindPopup(feature.properties.OUTAGE_COUNT + ' customers out');
             }
           }).addTo(map);
           map.fitBounds(polys.getBounds());
