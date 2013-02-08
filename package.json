@@ -15,12 +15,12 @@
     "url": "https://github.com/rvernagus/node-geoservices.git"
   },
   "keywords": [
+    "esri",
+    "gisserver",
     "geoservices",
     "gis"
   ],
   "devDependencies": {
-    "grunt-coffee": "*",
-    "grunt-coffeelint": "*",
     "grunt-mocha-test": "*",
     "mocha": "~1.7.4",
     "nock": "~0.14.3"
