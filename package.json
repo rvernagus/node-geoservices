@@ -18,7 +18,8 @@
     "esri",
     "gisserver",
     "geoservices",
-    "gis"
+    "gis",
+    "nodejs"
   ],
   "devDependencies": {
     "grunt-mocha-test": "*",
