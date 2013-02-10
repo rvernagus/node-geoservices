@@ -11,14 +11,13 @@ module.exports = function(grunt) {
       acceptanceTests: ['acceptanceTest/**/*.js']
     },
     mochaTestConfig: {
-      tests: {
-
-      },
       acceptanceTests: {
-
+        options: {
+          timeout: 10000
+        }
       }
     }
   });
   grunt.registerTask('default', 'lint mochaTest:tests');
-  grunt.registerTask('at', 'lint mochaTest:tests mochaTest:acceptanceTests');
+  grunt.registerTask('at', 'default mochaTest:acceptanceTests');
 };

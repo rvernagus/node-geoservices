@@ -73,7 +73,7 @@ describe('geoservices', function() {
 
     it('should add json format parameter', getUrlTest('', '?f=json', false));
 
-    it('should leave format parameter if present', getUrlTest('?f=pjson', '?f=pjson', false));
+    it('should overwrite format parameter if present', getUrlTest('?f=html', '?f=json', false));
 
     it('should add params to querystring', function(done) {
       expectGetRequest('', '?param1=value1&f=json', '{}', false);
@@ -81,6 +81,19 @@ describe('geoservices', function() {
         host: 'example.com',
         params: {
           param1: 'value1'
+        }
+      }, function() {
+        nock.cleanAll();
+        done();
+      });
+    });
+
+    it('should add objects params to querystring', function(done) {
+      expectGetRequest('', '?param1={%22param2%22:%22value1%22}&f=json', '{}', false);
+      geoservices.get({
+        host: 'example.com',
+        params: {
+          param1: { param2: 'value1' }
         }
       }, function() {
         nock.cleanAll();
@@ -215,16 +228,16 @@ describe('geoservices', function() {
     });
   });
 
-  describe('serializeBody', function() {
+  describe('serializeObject', function() {
     it('should use format key=val', function() {
-      var result = geoservices.serializeBody({
+      var result = geoservices.serializeObject({
         key: 'val'
       });
       assert.equal(result, 'key=val');
     });
 
     it('should support multiple keys', function() {
-      var result = geoservices.serializeBody({
+      var result = geoservices.serializeObject({
         key1: 'val1',
         key2: 'val2',
         key3: 'val3'
@@ -233,7 +246,7 @@ describe('geoservices', function() {
     });
 
     it('should support deep objects', function() {
-      var result = geoservices.serializeBody({
+      var result = geoservices.serializeObject({
         key1: {
           key2: 'val2'
         }
@@ -242,28 +255,28 @@ describe('geoservices', function() {
     });
 
     it('should support array values', function() {
-      var result = geoservices.serializeBody({
+      var result = geoservices.serializeObject({
         key: ['val1', 'val2', 1]
       });
       assert.equal(result, 'key=["val1","val2",1]');
     });
 
     it('should support number values', function() {
-      var result = geoservices.serializeBody({
+      var result = geoservices.serializeObject({
         key: 1
       });
       assert.equal(result, 'key=1');
     });
 
     it('should support comma-separated values', function() {
-      var result = geoservices.serializeBody({
+      var result = geoservices.serializeObject({
         key: '1,2,3'
       });
       assert.equal(result, 'key=1,2,3');
     });
 
     it('should support null values', function() {
-      var result = geoservices.serializeBody({
+      var result = geoservices.serializeObject({
         key: null
       });
       assert.equal(result, 'key=');
