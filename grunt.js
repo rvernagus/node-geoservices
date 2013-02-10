@@ -7,7 +7,8 @@ module.exports = function(grunt) {
       files: files
     },
     mochaTest: {
-      tests: ['test/**/*.js']
+      tests: ['test/**/*.js'],
+      acceptanceTests: ['acceptanceTest/**/*.js']
     },
     mochaTestConfig: {
       tests: {
@@ -18,5 +19,6 @@ module.exports = function(grunt) {
       }
     }
   });
-  grunt.registerTask('default', 'lint mochaTest');
+  grunt.registerTask('default', 'lint mochaTest:tests');
+  grunt.registerTask('at', 'lint mochaTest:tests mochaTest:acceptanceTests');
 };
