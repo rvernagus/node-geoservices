@@ -149,5 +149,43 @@ describe('geoservices converter', function() {
       };
       assert.deepEqual(result, expected);
     });
+
+    it('should convert an array of single ring polygons', function() {
+      this.esriFeature.geometry = {
+        rings: [[[1, 2], [3, 4]], [[5, 6], [1, 2]]]
+      };
+      var esriFeatures = [this.esriFeature, this.esriFeature];
+      var result = geoservices.convert.toGeoJSON(esriFeatures);
+      assert.equal(2, result.length);
+      assert.equal('Polygon', result[0].geometry.type);
+    });
+
+    it('should convert a two ring polygon', function() {
+      this.esriFeature.geometry = {
+        rings: [[[1, 2], [3, 4]], [[5, 6], [1, 2]], [[7, 8], [9, 10]], [[11, 12], [7, 8]]]
+      };
+      var result = geoservices.convert.toGeoJSON(this.esriFeature);
+      var expected = {
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[[1, 2], [3, 4]], [[5, 6], [1, 2]], [[7, 8], [9, 10]], [[11, 12], [7, 8]]]
+        },
+        properties: {
+          attr1: 'val1'
+        }
+      };
+      assert.deepEqual(result, expected);
+    });
+
+    it('should convert an array of two ring polygons', function() {
+      this.esriFeature.geometry = {
+        rings: [[[1, 2], [3, 4]], [[5, 6], [1, 2]], [[7, 8], [9, 10]], [[11, 12], [7, 8]]]
+      };
+      var esriFeatures = [this.esriFeature, this.esriFeature];
+      var result = geoservices.convert.toGeoJSON(esriFeatures);
+      assert.equal(2, result.length);
+      assert.equal('Polygon', result[0].geometry.type);
+    });
   });
 });
