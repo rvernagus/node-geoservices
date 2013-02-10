@@ -245,6 +245,14 @@ describe('geoservices', function() {
       assert.equal(result, 'key1=val1&key2=val2&key3=val3');
     });
 
+    it('should support booleans', function() {
+      var result = geoservices.serializeObject({
+        key1: true,
+        key2: false
+      });
+      assert.equal(result, 'key1=true&key2=false');
+    });
+
     it('should support deep objects', function() {
       var result = geoservices.serializeObject({
         key1: {
