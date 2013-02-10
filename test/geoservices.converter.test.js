@@ -13,9 +13,9 @@ describe('geoservices converter', function() {
 
     it('should error upon empty geometry', function() {
       this.esriFeature.geometry = {};
-      assert.throws((function() {
+      assert.throws(function() {
         geoservices.convert.toGeoJSON(this.esriFeature);
-      }), Error);
+      }, Error);
     });
 
     it('should convert a point', function() {

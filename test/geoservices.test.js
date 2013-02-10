@@ -13,14 +13,14 @@ var expectRequest = function(requestedPath, expectedPath, response, method, filt
 };
 
 var expectGetRequest = function(requestedPath, expectedPath, response, filter) {
-  if (filter == null) {
+  if (filter === undefined) {
     filter = true;
   }
   return expectRequest(requestedPath, expectedPath, response, 'get', filter);
 };
 
 var expectPostRequest = function(requestedPath, expectedPath, response, filter) {
-  if (filter == null) {
+  if (filter === undefined) {
     filter = true;
   }
   return expectRequest(requestedPath, expectedPath, response, 'post', filter);
@@ -40,9 +40,7 @@ var getUrlTest = function(requestedPath, expectedPath, filter) {
 };
 
 var postUrlTest = function(requestedPath, expectedPath, response, filter) {
-  if (response == null) {
-    response = '{}';
-  }
+  response = response || '{}';
   return function(done) {
     expectPostRequest(requestedPath, expectedPath, response, filter);
     geoservices.post({
