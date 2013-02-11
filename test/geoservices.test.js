@@ -299,7 +299,10 @@ describe('geoservices', function() {
   });
 
   describe('serializeObject', function() {
-    var fut = geoservices.serializeObject;
+    var fut = function(obj) {
+      var params = new geoservices.RequestParams(obj);
+      return params.toString();
+    };
 
     it('should use format key=val', function() {
       assert.equal(
