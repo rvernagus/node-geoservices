@@ -70,9 +70,10 @@ describe('geoservices', function() {
         }
       };
       geoservices.get(options, function(result) {
-        console.log(result);
         var geoJsonResult = geoservices.convert.toGeoJSON(result.results);
-        console.log(geoJsonResult);
+        assert.equal(3, geoJsonResult.length);
+        assert.equal(geoJsonResult[0].geometry.type, 'Polygon');
+        assert.equal(geoJsonResult[0].properties.NAME, 'Washoe');
         done();
       });
     })
