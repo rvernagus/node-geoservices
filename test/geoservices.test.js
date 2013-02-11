@@ -228,66 +228,108 @@ describe('geoservices', function() {
     });
   });
 
-  describe('serializeObject', function() {
-    it('should use format key=val', function() {
-      var result = geoservices.serializeObject({
-        key: 'val'
+  describe('RequestParams', function() {
+    describe('serializeValue', function() {
+      var fut = geoservices.RequestParams.serializeValue;
+
+      it('should support undefined', function() {
+        assert.equal(
+          fut(undefined),
+          ''
+        );
       });
-      assert.equal(result, 'key=val');
+
+      it('should support null', function() {
+        assert.equal(
+          fut(null),
+          ''
+        );
+      });
+
+      it('should support booleans', function() {
+        assert.equal(
+          fut(true),
+          'true'
+        );
+        assert.equal(
+          fut(false),
+          'false'
+        );
+      });
+
+      it('should support numbers', function() {
+        assert.equal(
+          fut(1),
+          '1'
+        );
+        assert.equal(
+          fut(-1),
+          '-1'
+        );
+      });
+
+      it('should support strings', function() {
+        assert.equal(
+          fut('string'),
+          'string'
+        );
+      });
+
+      it('should support objects', function() {
+        assert.equal(
+          fut({key1:'val1',key2:'val2'}),
+          '{"key1":"val1","key2":"val2"}'
+        );
+      });
+
+      it('should support arrays', function() {
+        assert.equal(
+          fut([1,'2']),
+          '[1,"2"]'
+        );
+      });
+
+      it('should support url encoded chars', function() {
+        assert.equal(
+          fut('{, '),
+          '{, '
+        );
+      });
+    });
+  });
+
+  describe('serializeObject', function() {
+    var fut = geoservices.serializeObject;
+
+    it('should use format key=val', function() {
+      assert.equal(
+        fut({
+          key: 'val'
+        }),
+        'key=val'
+      );
     });
 
     it('should support multiple keys', function() {
-      var result = geoservices.serializeObject({
-        key1: 'val1',
-        key2: 'val2',
-        key3: 'val3'
-      });
-      assert.equal(result, 'key1=val1&key2=val2&key3=val3');
-    });
-
-    it('should support booleans', function() {
-      var result = geoservices.serializeObject({
-        key1: true,
-        key2: false
-      });
-      assert.equal(result, 'key1=true&key2=false');
+      assert.equal(
+        fut({
+          key1: 'val1',
+          key2: 'val2',
+          key3: 'val3'
+        }),
+        'key1=val1&key2=val2&key3=val3'
+      );
     });
 
     it('should support deep objects', function() {
-      var result = geoservices.serializeObject({
-        key1: {
-          key2: 'val2'
-        }
-      });
-      assert.equal(result, 'key1={"key2":"val2"}');
-    });
-
-    it('should support array values', function() {
-      var result = geoservices.serializeObject({
-        key: ['val1', 'val2', 1]
-      });
-      assert.equal(result, 'key=["val1","val2",1]');
-    });
-
-    it('should support number values', function() {
-      var result = geoservices.serializeObject({
-        key: 1
-      });
-      assert.equal(result, 'key=1');
-    });
-
-    it('should support comma-separated values', function() {
-      var result = geoservices.serializeObject({
-        key: '1,2,3'
-      });
-      assert.equal(result, 'key=1,2,3');
-    });
-
-    it('should support null values', function() {
-      var result = geoservices.serializeObject({
-        key: null
-      });
-      assert.equal(result, 'key=');
+      assert.equal(
+        fut({
+          key1: {
+            key2: 'val2'
+          }
+        }),
+        'key1={"key2":"val2"}'
+      );
     });
   });
 });

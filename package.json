@@ -21,6 +21,9 @@
     "gis",
     "nodejs"
   ],
+  "dependencies": {
+    "underscore": "*"
+  },
   "devDependencies": {
     "grunt-mocha-test": "*",
     "mocha": "~1.7.4",
