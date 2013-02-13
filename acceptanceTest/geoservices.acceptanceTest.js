@@ -76,6 +76,24 @@ describe('geoservices', function() {
         assert.equal(geoJsonResult[0].properties.NAME, 'Washoe');
         done();
       });
-    })
+    });
+
+    it('geocode service find address candidates', function(done) {
+      var options = {
+        host: 'sampleserver1.arcgisonline.com',
+        path: '/ArcGIS/rest/services/Locators/ESRI_Geocode_USA/GeocodeServer/findAddressCandidates',
+        params: {
+          Address: '380 New York Street',
+          City: 'Redlands',
+          State: 'CA',
+          Zip: 92373
+        }
+      };
+      geoservices.get(options, function(result) {
+        assert.equal(result.candidates[0].address, '380 NEW YORK ST, REDLANDS, CA, 92373');
+        assert.equal(result.candidates[0].score, 100);
+        done();
+      })
+    });
   });
 });
