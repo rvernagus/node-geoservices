@@ -62,10 +62,10 @@ describe('RequestParams', function() {
       );
     });
 
-    it('should support url encoded chars', function() {
+    it('should support special chars', function() {
       assert.equal(
-        fut('{, '),
-        '{, '
+        fut('{, <\\'),
+        '{, <\\'
       );
     });
   });
