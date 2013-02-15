@@ -70,10 +70,10 @@ describe('geoservices', function() {
         }
       };
       geoservices.get(options, function(result) {
-        var geoJsonResult = geoservices.convert.toGeoJSON(result.results);
-        assert.equal(3, geoJsonResult.length);
-        assert.equal(geoJsonResult[0].geometry.type, 'Polygon');
-        assert.equal(geoJsonResult[0].properties.NAME, 'Washoe');
+        var geoJSONResult = geoservices.convert.toGeoJSON(result.results);
+        assert.equal(3, geoJSONResult.length);
+        assert.equal(geoJSONResult[0].geometry.type, 'Polygon');
+        assert.equal(geoJSONResult[0].properties.NAME, 'Washoe');
         done();
       });
     });
@@ -94,6 +94,28 @@ describe('geoservices', function() {
         assert.equal(result.candidates[0].score, 100);
         done();
       })
+    });
+
+    it('feature service query', function(done) {
+      var options = {
+        host: 'sampleserver3.arcgisonline.com',
+        path: '/ArcGIS/rest/services/Earthquakes/EarthquakesFromLastSevenDays/FeatureServer/0/query',
+        params: {
+          where: 'magnitude > 4.5',
+          geometryType: 'esriGeometryEnvelope',
+          spatialRel: 'esriSpatialRelIntersects',
+          outFields: '*',
+          returnGeometry: true,
+          returnIdsOnly: false
+        }
+      };
+      geoservices.get(options, function(result) {
+        var geoJSONResult = geoservices.convert.toGeoJSON(result.features);
+        assert.equal(geoJSONResult.length, 140);
+        assert.equal(geoJSONResult[0].geometry.type, 'Point');
+        assert.equal(geoJSONResult[0].properties.region, 'Kepulauan Batu, Indonesia');
+        done();
+      });
     });
   });
 });
