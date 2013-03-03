@@ -25,10 +25,11 @@
     "underscore": "*"
   },
   "devDependencies": {
+    "grunt-contrib-jshint": "*",
     "grunt-mocha-test": "*",
     "mocha": "~1.7.4",
     "nock": "~0.14.3",
-    "grunt": "~0.3.17"
+    "grunt": "0.4.0"
   },
   "author": "Ray Vernagus",
   "license": "MIT",

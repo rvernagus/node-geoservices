@@ -111,9 +111,9 @@ describe('geoservices', function() {
       };
       geoservices.get(options, function(result) {
         var geoJSONResult = geoservices.convert.toGeoJSON(result.features);
-        assert.equal(geoJSONResult.length, 140);
+        assert.equal(geoJSONResult.length, 81);
         assert.equal(geoJSONResult[0].geometry.type, 'Point');
-        assert.equal(geoJSONResult[0].properties.region, 'Kepulauan Batu, Indonesia');
+        assert.equal(geoJSONResult[0].properties.region, 'south of the Fiji Islands');
         done();
       });
     });
